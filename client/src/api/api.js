@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  // Mengambil URL dari .env, atau fallback ke localhost jika .env tidak terbaca
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
 });
 
 // Otomatis tempelkan token di setiap request
