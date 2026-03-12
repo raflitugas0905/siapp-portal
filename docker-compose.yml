@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  # Konfigurasi Backend
+  backend:
+    build: ./server
+    container_name: siapp-backend
+    ports:
+      - "5000:5000"
+    restart: always
+    volumes:
+      - ./server/database.db:/app/database.db # Menjaga data agar tidak hilang
+
+  # Konfigurasi Frontend
+  frontend:
+    build: ./client
+    container_name: siapp-frontend
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - backend

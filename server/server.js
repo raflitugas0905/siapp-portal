@@ -1,16 +1,23 @@
 require('dotenv').config(); 
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors'); // Pastikan package ini sudah ada di package.json
 const db = require('./db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authMiddleware = require('./middleware/auth');
 
 const app = express();
-app.use(cors());
+
+// Konfigurasi CORS yang lebih fleksibel untuk development
+app.use(cors({
+  origin: '*', // Mengizinkan semua domain (termasuk localhost port berapa pun)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
-const SECRET_KEY = process.env.JWT_SECRET; 
+const SECRET_KEY = process.env.JWT_SECRET || 'secret_key_default'; 
 
 // --- ROUTES AUTH ---
 app.post('/api/login', (req, res) => {
@@ -40,8 +47,6 @@ app.post('/api/login', (req, res) => {
 });
 
 // --- ROUTES SERVICES ---
-
-// Public: Ambil daftar layanan
 app.get('/api/services', (req, res) => {
   db.all("SELECT * FROM services ORDER BY category DESC", [], (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -49,7 +54,6 @@ app.get('/api/services', (req, res) => {
   });
 });
 
-// Admin: Tambah layanan
 app.post('/api/services', authMiddleware, (req, res) => {
   const { title, description, category, image_url, link_url } = req.body;
   if (!title || !category || !link_url) {
@@ -63,7 +67,6 @@ app.post('/api/services', authMiddleware, (req, res) => {
   });
 });
 
-// Admin: UPDATE layanan (Pindahkan ke sini agar terbaca sebelum app.listen)
 app.put('/api/services/:id', authMiddleware, (req, res) => {
   const { title, description, category, image_url, link_url } = req.body;
   const { id } = req.params;
@@ -76,7 +79,6 @@ app.put('/api/services/:id', authMiddleware, (req, res) => {
   });
 });
 
-// Admin: Hapus layanan
 app.delete('/api/services/:id', authMiddleware, (req, res) => {
   db.run("DELETE FROM services WHERE id = ?", [req.params.id], function(err) {
     if (err) return res.status(500).json({ error: err.message });
@@ -85,6 +87,8 @@ app.delete('/api/services/:id', authMiddleware, (req, res) => {
   });
 });
 
-// --- SERVER START (Wajib di Paling Bawah) ---
+// --- SERVER START ---
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Backend SIAPP running on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => { 
+  console.log(`Server SIAPP running on port ${PORT}`);
+});
