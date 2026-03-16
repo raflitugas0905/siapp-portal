@@ -7,9 +7,11 @@ services:
     container_name: siapp-backend
     ports:
       - "5000:5000"
+    env_file:
+      - ./server/.env
     restart: always
     volumes:
-      - ./server/database.db:/app/database.db # Menjaga data agar tidak hilang
+      - ./server/database.db:/app/database.db
 
   # Konfigurasi Frontend
   frontend:
