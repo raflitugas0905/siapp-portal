@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Konfigurasi Backend
   backend:
     build: ./server
     container_name: siapp-backend
@@ -11,7 +10,8 @@ services:
       - ./server/.env
     restart: always
     volumes:
-      - ./server/database.db:/app/database.db
+      # Formatnya -> [Path di Laptop] : [Path di dalam Container]
+      - ./siapp.db:/app/siapp.db
 
   # Konfigurasi Frontend
   frontend:
