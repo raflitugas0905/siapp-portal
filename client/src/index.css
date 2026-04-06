@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+
+@variant dark (&:where(.dark, .dark *));
+@theme {
+--animate-bounce-slow: bounce 3s infinite;
+--color-emerald-600: #059669;
+}

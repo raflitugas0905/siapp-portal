@@ -1,6 +1,6 @@
 require('dotenv').config(); 
 const express = require('express');
-const cors = require('cors'); // Pastikan package ini sudah ada di package.json
+const cors = require('cors'); 
 const db = require('./db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -10,7 +10,7 @@ const app = express();
 
 // Konfigurasi CORS yang lebih fleksibel untuk development
 app.use(cors({
-  origin: '*', // Mengizinkan semua domain (termasuk localhost port berapa pun)
+  origin: '*', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
