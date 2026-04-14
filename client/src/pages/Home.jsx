@@ -106,11 +106,6 @@ const Home = () => {
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-
-            <Link to="/login" className="relative px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full text-[11px] font-black uppercase tracking-widest overflow-hidden group hover:shadow-2xl hover:shadow-emerald-200 dark:hover:shadow-emerald-950 transition-all">
-              <span className="relative z-10">Admin Console</span>
-              <div className="absolute inset-0 bg-emerald-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </Link>
           </div>
         </div>
       </nav>
